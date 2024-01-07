@@ -1,22 +1,20 @@
-const express = require("express");
-const app = express();
-const userRouter = require("./routes/user");
-const connectToMongo = require("./connections");
-const logger = require("./middlewares/");
+import express, { Request, Response } from "express";
+import { router as userRouter } from "./routes/user";
+// import { logger } from "./middlewares/";
 require("dotenv").config();
 
-const PORT = 8000;
-
-connectToMongo(process.env.MONGO_CONNECTION_STRING);
+const app = express();
+const PORT = process.env.PORT || 8000;
 
 // parse application/x-www-form-urlencoded and application/json
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // our custom logger
-app.use(logger("logs.txt"));
+// app.use(logger("logs.txt"));
 
-app.get("/", (req, res) => {
+// @TODO: move this to static route or maybe create a view for this
+app.get("/", (req: Request, res: Response) => {
   res.send(`
   <ul>
     <li> GET <code>/users</code> - List all users </li>
